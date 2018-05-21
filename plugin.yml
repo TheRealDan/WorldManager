@@ -1,0 +1,8 @@
+name: WorldCommand
+version: 1.0
+main: me.therealdan.worldmanager.WorldManager
+author: TheRealDan
+commands:
+  World:
+    permission: worldmanager.commands.world
+    description: Manage Worlds
