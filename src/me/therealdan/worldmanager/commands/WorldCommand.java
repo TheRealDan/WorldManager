@@ -57,10 +57,13 @@ public class WorldCommand implements CommandExecutor {
                     sender.sendMessage(WorldManager.MAIN + "No world exists with that name.");
                     return true;
                 }
-                boolean confirm = args.length > 2 && args[1].equalsIgnoreCase("confirm");
+                boolean confirm = args.length > 2 && args[2].equalsIgnoreCase("confirm");
                 if (confirm) {
-                    world.delete();
-                    sender.sendMessage(WorldManager.MAIN + "Permanently deleted world " + WorldManager.SECOND + world.getName());
+                    if (world.delete()) {
+                        sender.sendMessage(WorldManager.MAIN + "Permanently deleted world " + WorldManager.SECOND + world.getName());
+                    } else {
+                        sender.sendMessage(WorldManager.SECOND + world.getName() + WorldManager.MAIN + " cannot be deleted right now.");
+                    }
                 } else {
                     sender.sendMessage(WorldManager.MAIN + "Are you sure you want to Permanently delete world " + WorldManager.SECOND + world.getName() + WorldManager.MAIN + "?");
                     sender.sendMessage(WorldManager.MAIN + "/World Delete [World] Confirm");

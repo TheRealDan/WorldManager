@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,8 +37,29 @@ public class World {
         getData().set("Worlds." + getName(), "");
     }
 
-    public void delete() {
-        // TODO
+    public boolean delete() {
+        org.bukkit.World world = getWorld();
+
+        if (world == null) return false;
+        if (world.getPlayers().size() > 0) return false;
+
+        Bukkit.unloadWorld(world, false);
+
+        String path = Bukkit.getWorldContainer().getAbsolutePath();
+        delete(new File(path.substring(0, path.length() - 1), getName()));
+
+        worlds.remove(this);
+        return true;
+    }
+
+    private void delete(File file) {
+        File[] contents = file.listFiles();
+        if (contents != null) {
+            for (File each : contents) {
+                delete(each);
+            }
+        }
+        file.delete();
     }
 
     public String getName() {
